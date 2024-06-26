@@ -1,0 +1,35 @@
+<!-- The following doctype doesn't work when offline, so default to old one, which does work.
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">-->
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <mapping class="com.sambet.model.User"/>
+        <mapping class="com.sambet.model.Role"/>
+        <mapping class="com.sambet.model.TipoRuoli"/>
+		<mapping class="com.sambet.model.GestioneApplicazione"/>
+		
+		<mapping class="com.sambet.model.ListaNazioni"/>
+		<mapping class="com.sambet.model.Nazioni"/>
+		<mapping class="com.sambet.model.Competizioni"/>
+		<mapping class="com.sambet.model.Eventi"/>
+		<mapping class="com.sambet.model.Market_EsitoFinale"/>
+		<mapping class="com.sambet.model.Market_OverUnder_25"/>
+		<mapping class="com.sambet.model.Market_Gol"/>
+		
+		<mapping class="com.sambet.model.RafCompetizioni"/>
+		<mapping class="com.sambet.model.RafEventi"/>
+		<mapping class="com.sambet.model.RafBookmakers"/>
+		<mapping class="com.sambet.model.RafMarket_EsitoFinale"/>
+		<mapping class="com.sambet.model.RafMarket_OverUnder_25"/>
+		<mapping class="com.sambet.model.RafMarket_Gol"/>
+		<mapping class="com.sambet.model.RafTeams"/>
+		<mapping class="com.sambet.model.RafStatistics"/>
+		<mapping class="com.sambet.model.RafQuoteSambet"/>
+		
+		
+		
+    </session-factory>
+</hibernate-configuration>

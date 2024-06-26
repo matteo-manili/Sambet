@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+
+    <persistence-unit name="ApplicationEntityManager" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>com.sambet.model.User</class>
+        <class>com.sambet.model.Role</class>
+        <class>com.sambet.model.TipoRuoli</class>
+        <class>com.sambet.model.GestioneApplicazione</class>
+        
+        <class>com.sambet.model.ListaNazioni</class>
+        <class>com.sambet.model.Nazioni</class>
+        <class>com.sambet.model.Competizioni</class>
+        <class>com.sambet.model.Eventi</class>
+        <class>com.sambet.model.Market_EsitoFinale</class>
+        <class>com.sambet.model.Market_OverUnder_25</class>
+        <class>com.sambet.model.Market_Gol</class>
+        
+        <class>com.sambet.model.RafCompetizioni</class>
+        <class>com.sambet.model.RafEventi</class>
+        <class>com.sambet.model.RafBookmakers</class>
+        <class>com.sambet.model.RafMarket_EsitoFinale</class>
+        <class>com.sambet.model.RafMarket_OverUnder_25</class>
+        <class>com.sambet.model.RafMarket_Gol</class>
+        <class>com.sambet.model.RafTeams</class>
+        <class>com.sambet.model.RafStatistics</class>
+        <class>com.sambet.model.RafQuoteSambet</class>
+        
+        
+        
+    </persistence-unit>
+
+    <!-- WARNING: This file's file original source is at web/common/src/main/resources/META-INF. The
+        META-INF directory is included in the jsf, spring, struts and tapestry projects using svn:externals.
+        If you need to modify this file, please do so in web/common/src/main/resources/META-INF, check it
+        in, and then "svn up" for the other modules. -->
+</persistence>

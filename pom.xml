@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.sambet</groupId>
+    <artifactId>sambet</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>AppFuse Spring MVC Application</name>
+
+    <parent>
+        <groupId>org.appfuse</groupId>
+        <artifactId>appfuse-web</artifactId>
+        <version>3.5.0</version>
+    </parent>
+
+    <repositories>
+        <repository>
+            <id>appfuse-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/appfuse-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>de.juplo</groupId>
+                <artifactId>hibernate4-maven-plugin</artifactId>
+                <configuration>
+                    <scanDependencies>none</scanDependencies>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>dbunit-maven-plugin</artifactId>
+            </plugin>
+            
+            <!-- questo mi serve per non fare compilare i file della cartella resources, ad esempio i file java li deve compilare ma i file .gif, .txt ....
+             .der come il certificato DKIM per le email http://dkimcore.org/tools/key/1498003018-74cfa69b5ebf333a072938f3aa8e4fd2/ 
+             no li deve compilare, per ke viene usato come chiave di decriptazione nel processo di intestazione della email  -->
+			<plugin>
+	        	<groupId>org.apache.maven.plugins</groupId>
+	        	<artifactId>maven-resources-plugin</artifactId>
+	        	<configuration>
+	          	<nonFilteredFileExtensions>
+	            	<nonFilteredFileExtension>der</nonFilteredFileExtension>
+	            	<nonFilteredFileExtension>pem</nonFilteredFileExtension>
+	            	<nonFilteredFileExtension>txt</nonFilteredFileExtension>
+	            	<nonFilteredFileExtension>p12</nonFilteredFileExtension>
+	          	</nonFilteredFileExtensions>
+	        	</configuration>
+      		</plugin>
+      		
+      		<!-- ho aggiunto questo perché al mvn INSTALL TEST da errore.... ricontrollare -->
+      		<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-surefire-plugin</artifactId>
+			  <configuration>
+			    <forkCount>3</forkCount>
+			    <reuseForks>true</reuseForks>
+			    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+			  </configuration>
+			</plugin>
+      		
+      		
+        </plugins>
+        
+         <!-- 
+        <resources>
+			<resource>
+				<directory>src/main/resources</directory> 
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>keys/**</exclude>		
+				</excludes>  
+		  	</resource>
+		  	<resource>
+        		<directory>src/main/resources/keys</directory>
+        		<filtering>false</filtering>
+      		</resource>
+		</resources>  
+		-->
+		
+		<!--
+		<resources>
+	      <resource>
+	        <directory>src/main/resources/keys</directory>
+	        <excludes>
+	          <exclude>private.key.der</exclude>
+	        </excludes>
+	      </resource>
+	    </resources>
+        -->
+    </build>
+
+	<dependencies>
+        <dependency>
+            <groupId>org.appfuse</groupId>
+            <artifactId>appfuse-${web.framework}</artifactId>
+            <version>${appfuse.version}</version>
+            <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.appfuse</groupId>
+                    <artifactId>appfuse-hibernate</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+		<!-- add -->
+		
+		<!-- INIZIO FACEBOOK 
+			<dependency>
+			    <groupId>commons-httpclient</groupId>
+			    <artifactId>commons-httpclient</artifactId>
+			    <version>3.1</version>
+			</dependency>
+			<dependency>
+			    <groupId>com.restfb</groupId>
+			    <artifactId>restfb</artifactId>
+			    <version>2.23.0</version>
+			</dependency> -->
+		<!-- FINE FACEBOOK -->
+		
+		<!-- 
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>3.141.59</version>
+		</dependency>
+		 -->
+
+		
+		<!-- 
+		<dependency>
+		    <groupId>phantomjs</groupId>
+		    <artifactId>no.phantomjs</artifactId>
+		    <version>2.1.1</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/src/main/resources/phantom/phantomjs.exe</systemPath>
+		</dependency>
+		 -->
+		
+		<!-- 
+		<dependency>
+        <groupId>com.github.detro</groupId>
+        <artifactId>phantomjsdriver</artifactId>
+        <version>1.2.0</version>
+    	</dependency>
+    	
+    	<dependency>
+		  <groupId>com.github.detro</groupId>
+		  <artifactId>phantomjsdriver</artifactId>
+		  <version>1.2.0</version>
+		  <classifier>sources</classifier>
+		</dependency>
+		 -->
+		 
+		<!-- NON FUNZIONA CON SINGLE PAGE JAVASCRIPT -->
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit 
+		<dependency> 
+		    <groupId>net.sourceforge.htmlunit</groupId>
+		    <artifactId>htmlunit</artifactId>
+		    <version>2.53.0</version>
+		</dependency>
+		 -->
+		 
+		 
+		<!-- Molto importante serve a fare funzionare i comandi maven per fare partire il test che costruisce il database e fa partire i test -->
+		<dependency>
+		    <groupId>org.appfuse</groupId>
+		    <artifactId>appfuse-web-common</artifactId>
+		</dependency>
+		
+		<!-- serve a misurare la somiglianza tra due stringhe vedere: https://github.com/tdebatty/java-string-similarity -->
+		<dependency>
+			<groupId>info.debatty</groupId>
+			<artifactId>java-string-similarity</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		
+		
+		<!-- per fare chiamate http, per esempio chiamare delle API  -->
+		<dependency>
+    		<groupId>com.squareup.okhttp</groupId>
+    		<artifactId>okhttp</artifactId>
+    		<version>2.7.5</version>
+		</dependency>
+		
+		<!-- calcolo poisson -->
+		<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-math3</artifactId>
+		<version>3.6.1</version>
+		</dependency>
+		
+		
+		
+		<!-- Per lavorare il JWT Json Web Token https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt</artifactId>
+		    <version>0.9.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava (Serve a fare fuzionare FirebaseConnect.java) -->
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>27.0.1-jre</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.12</version>
+		</dependency>
+
+		
+		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+		<dependency>
+		    <groupId>javax.websocket</groupId>
+		    <artifactId>javax.websocket-api</artifactId>
+		    <version>1.1</version>
+		    <scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber 
+			(Mi formatta il numeto telefonico con gli spazi al posto gusto e valida e altre cose) -->
+		<dependency>
+		    <groupId>com.googlecode.libphonenumber</groupId>
+		    <artifactId>libphonenumber</artifactId>
+		    <version>8.10.5</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>2.2.1</version>
+		</dependency>  
+		
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>3.0.2-RELEASE</version>
+		</dependency>
+
+
+		
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<!-- ex versione 20190722 -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20190722</version>
+		</dependency>
+ 
+		<!-- parsing html (PER CATTURARE LE PAGINE HTML DEGLI ANNUNCI) -->
+		<dependency>
+			<!-- jsoup HTML parser library @ https://jsoup.org/ -->
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.14.3</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.6</version>
+		</dependency>
+
+			
+		<!-- per fare i link secondo una stringa (titolo dogSitter) -->
+		<dependency>
+		    <groupId>com.github.slugify</groupId>
+		    <artifactId>slugify</artifactId>
+		    <version>2.2</version>
+		</dependency>
+		
+		<!-- per creare automaticamente la sitemap.xml -->
+		<!-- https://mvnrepository.com/artifact/com.google.code/sitemapgen4j -->
+		<dependency>
+		    <groupId>com.google.code</groupId>
+		    <artifactId>sitemapgen4j</artifactId>
+		    <version>1.0.1</version>
+		</dependency>
+
+
+		<dependency>
+		    <groupId>commons-validator</groupId>
+		    <artifactId>commons-validator</artifactId>
+		    <version>1.5.1</version>
+		</dependency>
+       
+    </dependencies>
+	    
+
+    <properties>
+        <amp.genericCore>true</amp.genericCore>
+        <amp.fullSource>false</amp.fullSource>
+        <dao.framework>hibernate</dao.framework> 
+        <web.framework>spring</web.framework>
+
+		<!-- localhost  
+		<db.servername>localhost</db.servername>
+		<db.name>sambet</db.name>
+		<jdbc.username>matteo</jdbc.username>
+		<jdbc.password>giulietta</jdbc.password>  -->
+		
+		<db.servername>161.27.212.83:5432</db.servername>
+		<db.name>SUA</db.name>
+		<jdbc.username>sua</jdbc.username>
+		<jdbc.password>sua.2020!</jdbc.password>
+		
+		<jdbc.CharSet>utf8mb4</jdbc.CharSet>
+		<jdbc.characterEncoding>utf8mb4</jdbc.characterEncoding>
+		<jdbc.useUnicode>true</jdbc.useUnicode>
+		
+		<!-- Sostituire "wc1mysql1.mondoserver.com" (versione 5.5.62) con "wc1mysql5.mondoserver.com" (versione 5.7.25) come indirizzo del server. -->
+		<!-- www.sambet.it 256 MB nome host: 151.1.159.233 wc1mysql5.mondoserver.com 
+		<db.servername>wc1mysql5.mondoserver.com</db.servername>
+		<db.name>apoll636_db1</db.name>
+		<jdbc.username>apoll636_usr1</jdbc.username>
+		<jdbc.password>giulietta</jdbc.password>  -->
+	
+		<!-- 
+		<jdbc.groupId>mysql</jdbc.groupId>
+		<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
+		<jdbc.version>5.1.48</jdbc.version> 
+		<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+		<jdbc.url>
+		    <![CDATA[jdbc:mysql://${db.servername}/${db.name}?createDatabaseIfNotExist=true&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
+		</jdbc.url>
+		<jdbc.validationQuery><![CDATA[SELECT 1 + 1]]></jdbc.validationQuery> 
+		-->
+		
+		<jdbc.groupId>org.postgresql</jdbc.groupId>
+		<jdbc.artifactId>postgresql</jdbc.artifactId>
+		<!-- <jdbc.version>5.1.48</jdbc.version>  -->
+		<jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
+		<jdbc.url>
+		    <![CDATA[jdbc:postgresql://${db.servername}/${db.name}?createDatabaseIfNotExist=true&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true]]>
+		</jdbc.url>
+		<jdbc.validationQuery><![CDATA[SELECT 1 + 1]]></jdbc.validationQuery>
+        
+
+        <!-- Framework/Plugin versions -->
+        
+        
+        <jackson.version>2.10.0</jackson.version>
+        
+        <!--  OLD
+        <spring-security-oauth.version>2.0.5.RELEASE</spring-security-oauth.version>  
+        <spring-security-jwt.version>1.0.2.RELEASE</spring-security-jwt.version>
+        <spring-security.version>3.2.5.RELEASE</spring-security.version> -->
+        
+        <!-- <jackson.version>2.10.0</jackson.version> -->
+        
+        <spring-security-oauth.version>2.0.19.RELEASE</spring-security-oauth.version>  
+        <spring-security-jwt.version>1.0.11.RELEASE</spring-security-jwt.version>
+        <spring-security.version>3.2.10.RELEASE</spring-security.version>
+        
+        <spring.version>4.3.25.RELEASE</spring.version>
+        <appfuse.version>3.5.0</appfuse.version>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>itest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>webtest-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>webtest-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

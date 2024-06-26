@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http pattern="/css/**" security="none"/>
+	<http pattern="/fonts/**" security="none"/>
+    <http pattern="/images/**" security="none"/>
+    <http pattern="/scripts/**" security="none"/>
+    <http pattern="/assets/**" security="none"/>
+	
+
+    <http auto-config="true">
+    	<!-- requires-channel="https" questo aggiunto agli attributi di intercept-url forza la chiamata al https:// -->
+    	<!-- VERIFICA GOOGLE googlee29bdebc24b34eb4.html -->
+    	<intercept-url pattern="/app/googlee29bdebc24b34eb4.html" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER"/>
+    
+    	<!-- DOMINIO PUBBLICO -->
+    	<intercept-url pattern="/app/recensioni-bookmakers" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER"/>
+    	<intercept-url pattern="/app/guida" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER"/>
+    	<intercept-url pattern="/app/chiamatasocket*" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER"/>
+    	<intercept-url pattern="/app/prove" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER"/>
+    	<intercept-url pattern="/app/provews" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER"/>
+    	
+    	<!-- DOMINIO INTERNO -->
+    	<intercept-url pattern="/app/home-user*" access="ROLE_ADMIN,ROLE_USER"/>
+    	
+    	<!-- CHIAMATE AJAX -->
+    	<intercept-url pattern="/app/maintabellajson" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER"/>
+    	<intercept-url pattern="/app/mainfiltrijson" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER"/>
+    	
+    	<!-- DOMINIO INTERNO ADMIN e GEST_AUTISTA e GEST_AUTISTA e COMMERCIALISTA -->
+    	<intercept-url pattern="/app/admin/admin-tableGestioneApplicazione*" access="ROLE_ADMIN"/>
+    	
+    	<!-- GENERAL -->
+        <intercept-url pattern="/app/" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_GEST_AUTISTA,ROLE_USER"/>
+        <intercept-url pattern="/app/**" access="ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_GEST_AUTISTA,ROLE_USER"/>
+        <intercept-url pattern="/app/admin/**" access="ROLE_ADMIN"/>
+        
+        <form-login login-page="/login" login-processing-url="/j_security_check" authentication-success-handler-ref="authenticationSuccessHandler" 
+        	authentication-failure-handler-ref="authenticationFailureHandler" />  
+	        
+	        <!-- 
+	        <form-login default-target-url="/home-user" login-page="/login" authentication-failure-url="/login?error=true" 
+	        login-processing-url="/j_security_check" authentication-success-handler-ref="ajaxAuthenticationSuccessHandler" 
+	        authentication-failure-handler-ref="ajaxAuthenticationFailureHandler" 
+	        />  
+	        <cors configuration-source-ref="webSecurityConfigurerAdapter"/>  -->
+
+        <remember-me user-service-ref="userDao" key="e37f4b31-0c45-11dd-bd0b-0800200c9a66"/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDao">
+            <password-encoder ref="passwordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
+
+
+    <!-- Override the default password-encoder (BCrypt) by uncommenting the following and changing the class -->
+    <!-- <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/> -->
+
+    <global-method-security>
+        <protect-pointcut expression="execution(* *..service.UserManager.getUsers(..))" access="ROLE_ADMIN"/>
+        <protect-pointcut expression="execution(* *..service.UserManager.removeUser(..))" access="ROLE_ADMIN"/>
+    </global-method-security>
+</beans:beans>

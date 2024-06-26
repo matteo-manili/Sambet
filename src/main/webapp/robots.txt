@@ -1,0 +1,7 @@
+# www.robotstxt.org/
+
+User-agent: Adsbot-Google
+User-agent: *
+Disallow: /prove
+Disallow: /provews
+Sitemap: https://www.sambet.it/sitemap.xml
